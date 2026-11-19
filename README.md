@@ -38,6 +38,12 @@ Antigravity는 긴 세션에서 약 **256k / 512k 토큰** 구간에 도달하�
 irm https://raw.githubusercontent.com/servaltullius/antigravity-compaction-guard/main/install.ps1 | iex
 ```
 
+> **Windows Defender 오탐(`ClickFix`)으로 위 명령이 차단되는 경우**: 메모리 직실행(`irm | iex`) 대신 파일로 내려받아 실행하세요.
+> ```powershell
+> curl.exe -fsSL https://raw.githubusercontent.com/servaltullius/antigravity-compaction-guard/main/install.ps1 -o install.ps1
+> powershell -ExecutionPolicy Bypass -File .\install.ps1
+> ```
+
 ### macOS / Linux (Bash)
 ```bash
 curl -fsSL https://raw.githubusercontent.com/servaltullius/antigravity-compaction-guard/main/install.sh | bash
