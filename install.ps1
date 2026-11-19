@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$InstallDir = (Join-Path $env:USERPROFILE ".gemini\hooks"),
     [string]$HooksPath  = (Join-Path $env:USERPROFILE ".gemini\config\hooks.json"),
     [string]$RulesPath  = (Join-Path $env:USERPROFILE ".gemini\GEMINI.md"),
