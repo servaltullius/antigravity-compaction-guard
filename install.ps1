@@ -116,10 +116,10 @@ if (-not $SkipRule) {
     $endMarker   = "<!-- compaction-guard:end -->"
     $ruleBlock = @(
         $startMarker,
-        "# Context & Compaction Discipline",
-        "- **3-Tier State Separation**: (1) Keep `GEMINI.md` (global/workspace) concise (<4 KB) with only invariant rules, prohibitions, and build commands — replace outdated lines instead of appending. (2) Overwrite active session progress, edited files, confirmed values, and remaining tasks in artifact `session_state.md` (1-2 KB). (3) Store cross-session durable facts in memory MCP if available.",
-        "- **Offload Wide Exploration**: Delegate multi-file searches (5+ files), large log analysis, and broad codebase surveys to the `research` subagent so only concise summaries enter the main context.",
-        "- **Pre-Compaction Backup**: When the compaction-guard hook warns at 200k/430k tokens or after a major milestone, overwrite `session_state.md` with current state (`ArtifactMetadata: UserFacing=false, RequestFeedback=false`).",
+        '# Context & Compaction Discipline',
+        '- **3-Tier State Separation**: (1) Keep `GEMINI.md` (global/workspace) concise (<4 KB) with only invariant rules, prohibitions, and build commands - replace outdated lines instead of appending. (2) Overwrite active session progress, edited files, confirmed values, and remaining tasks in artifact `session_state.md` (1-2 KB). (3) Store cross-session durable facts in memory MCP if available.',
+        '- **Offload Wide Exploration**: Delegate multi-file searches (5+ files), large log analysis, and broad codebase surveys to the `research` subagent so only concise summaries enter the main context.',
+        '- **Pre-Compaction Backup**: When the compaction-guard hook warns at 200k/430k tokens or after a major milestone, overwrite `session_state.md` with current state (`ArtifactMetadata: UserFacing=false, RequestFeedback=false`).',
         $endMarker
     ) -join "`r`n"
 
@@ -141,5 +141,5 @@ Write-Host "  Hook   : $TargetScript"
 Write-Host "  Config : $HooksPath"
 if (-not $SkipRule) { Write-Host "  Rules  : $RulesPath" }
 Write-Host ""
-Write-Host "Antigravity hot-reloads hooks.json automatically — no restart required!" -ForegroundColor Cyan
+Write-Host "Antigravity hot-reloads hooks.json automatically - no restart required!" -ForegroundColor Cyan
 Write-Host ""
