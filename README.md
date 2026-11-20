@@ -8,11 +8,15 @@ Google Antigravity의 장기 세션 자동압축으로 인한 **“압축 치매
 
 ## 왜 필요한가? (Why `antigravity-compaction-guard`?)
 
-Antigravity는 긴 세션에서 약 **256k / 512k 토큰** 구간에 도달하면 자동으로 과거 대화를 요약(`CHECKPOINT`)합니다. 하지만 LLM 기반 요약 압축은 본질적으로 손실이 발생해 다음 문제가 잦습니다:
+장기 코딩 세션의 컨텍스트 압축 방식은 도구마다 구조 차이가 큽니다.
 
-- **부정·부가 제약조건 누락** (*“이 파일/ID는 건드리지 마”*, *“배포 전 검증 필수”* 등)
-- **세부 작업 맥락 상실** → 압축 직후 이미 확인한 파일을 다시 뒤지는 재탐색 루프
-- **SessionStart 훅 희석** → 대화 시작 시 주입했던 장기 메모리 스냅샷이 중반 압축에서 함께 요약·소실
+| 도구 | 기본 컨텍스트 압축·보존 방식 | 체감 차이 |
+| --- | --- | --- |
+| **Claude Code** | 오래된 도구 출력부터 정리 후 요약 + 압축 후 `CLAUDE.md`·자동 메모리·Plan을 **디스크에서 자동 재주입** + `PreCompact` 훅 제공 | 압축 후에도 핵심 제약과 작업 계획이 잘 유지됨 |
+| **OpenAI Codex** | 서버 측 전용 `compact()` API와 구조화 상태 인계(handoff)로 세션 전환 | 일상 작업에서 압축 단절 체감이 적음 |
+| **Antigravity (순정)** | 약 256k / 512k 도달 시 인라인 체크포인트 요약(`CHECKPOINT`) 생성, **압축 직후 디스크 자동 재주입·전용 `PreCompact` 훅 없음** | 부정 제약 누락, `SessionStart` 메모리 희석, 이미 본 파일 재탐색 루프가 잦음 |
+
+**`antigravity-compaction-guard`**는 Antigravity의 공식 `PreInvocation` 훅과 `transcript.jsonl` 실측 토큰을 활용해, **Claude Code 수준의 디스크 재주입 + 사전 백업 + 결정적 작업 흔적(Breadcrumbs) 복원**을 Antigravity에 그대로 이식합니다.
 
 ### 이 도구가 해결하는 방식
 
